@@ -6,6 +6,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Image;
@@ -19,6 +20,7 @@ import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
+import com.practica2.tap.logic.Building;
 import com.practica2.tap.views.ascensor.AscensorView;
 import com.practica2.tap.views.control.ControlView;
 import com.practica2.tap.views.main.MainView;
@@ -55,7 +57,7 @@ public class MainView extends AppLayout {
 
         Button resetButton = new Button("Reset");
         resetButton.addClickListener(e -> {
-            Building.reset(7, 3);
+            Building.resetBuilding(7, 3);
         });
 
         layout.add(resetButton);
