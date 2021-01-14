@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
@@ -58,7 +59,11 @@ public class MainView extends AppLayout {
         Button resetButton = new Button("Reset");
         resetButton.addClickListener(e -> {
             Building.resetBuilding(7, 3);
+            UI.getCurrent().getPage().reload();
         });
+
+        resetButton.getElement().getStyle().set("margin-left", "auto");
+        resetButton.getElement().getStyle().set("margin-right", "10px");
 
         layout.add(resetButton);
         return layout;
