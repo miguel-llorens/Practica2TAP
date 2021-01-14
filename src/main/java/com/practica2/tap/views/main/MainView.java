@@ -1,4 +1,4 @@
-package com.example.application.views.main;
+package com.practica2.tap.views.main;
 
 import java.util.Optional;
 
@@ -19,10 +19,10 @@ import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.theme.Theme;
-import com.example.application.views.main.MainView;
-import com.example.application.views.helloworld.HelloWorldView;
-import com.example.application.views.about.AboutView;
+import com.practica2.tap.views.ascensor.AscensorView;
+import com.practica2.tap.views.control.ControlView;
+import com.practica2.tap.views.main.MainView;
+import com.practica2.tap.views.planta.PlantaView;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -82,7 +82,9 @@ public class MainView extends AppLayout {
     }
 
     private Component[] createMenuItems() {
-        return new Tab[]{createTab("Hello World", HelloWorldView.class), createTab("About", AboutView.class)};
+        return new Tab[] {createTab("Ascensores", AscensorView.class),
+        				  createTab("Plantas", PlantaView.class),
+        				  createTab("Control", ControlView.class)};
     }
 
     private static Tab createTab(String text, Class<? extends Component> navigationTarget) {
