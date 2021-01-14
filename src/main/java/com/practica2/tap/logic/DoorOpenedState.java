@@ -8,7 +8,11 @@ public class DoorOpenedState extends ElevatorState {
     @Override
     public String doors_button(Elevator elevator) {
         elevator.setCurrent_state(new DoorClosedState());
-
+        
+        if(!elevator.getCall_list().isEmpty()) {
+        	elevator.move_elevator();
+        }
+        
         return "Cerrando puerta.";
     }
 

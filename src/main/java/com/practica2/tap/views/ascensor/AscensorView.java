@@ -3,10 +3,12 @@ package com.practica2.tap.views.ascensor;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.practica2.tap.logic.Building;
 import com.practica2.tap.views.main.MainView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -16,19 +18,28 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "ascensores", layout = MainView.class)
+@Route(value = "", layout = MainView.class)
 @PageTitle("Ascensores")
 public class AscensorView extends VerticalLayout{
 	
-	public AscensorView() {
+	private Building edificio;
+	private Notification notification;
+	
+	public AscensorView() {			
+		
+		edificio = Building.getInstance(7, 3);
+		
+		notification = new Notification();
+		notification.setDuration(3000);
+		
 		Tabs tabs = new Tabs(); //Contendrá todos los tabs de la vista
 		Div pages = new Div(); //Contendrá todos los divs de la vista
 		Map<Tab, Component> tabsToPages = new HashMap<>(); //Para relacionar cada tab con cada page
 		
-		for(int i = 1; i <= 3; i++) {
+		for(int i = 0; i < 3; i++) {
 			Tab tab = new Tab("Ascensor " + i);
 			Div page = new Div();
-			page.add(panelAscensor());			
+			page.add(panelAscensor(i));			
 			
 			if(i!=1) page.setVisible(false); //Inicialmente se visualiza solo el primer panel
 						
@@ -47,27 +58,43 @@ public class AscensorView extends VerticalLayout{
 		add(tabs, pages);
 	}
 	
-	public VerticalLayout panelAscensor() {
+	public VerticalLayout panelAscensor(int ascensor) {
 		
 		TextField pantallaPlanta = new TextField();
+		edificio.getElevators().get(ascensor).attachObserver(pantallaPlanta);
 		pantallaPlanta.setReadOnly(true);
-		pantallaPlanta.setLabel("Planta");
-		pantallaPlanta.setValue("4"); //Obtener de un objeto de tipo ascensor
+		pantallaPlanta.setLabel("Planta");		
 		pantallaPlanta.setWidth("90%");		
 		
 		NumberField pisoDestino = new NumberField();
 		pisoDestino.setValue(1d);
 		pisoDestino.setHasControls(true);		
-		pisoDestino.setMin(1);		
-		pisoDestino.setMax(7);
+		pisoDestino.setMin(0);		
+		pisoDestino.setMax(6);
 		pisoDestino.setWidthFull();
 		
-		Button botonConfirmar = new Button("Ok"); //Añadir clickListener para boton
+		Button botonConfirmar = new Button("Ok");
 		botonConfirmar.setWidthFull();
 		Button botonAbrirCerrar = new Button("Abir/Cerrar");
 		botonAbrirCerrar.setWidthFull();
 		Button botonEmergencia = new Button("Emergencia");
 		botonEmergencia.setWidthFull();		
+		
+		botonConfirmar.addClickListener(e -> {
+			int destino = (int)Math.round(pisoDestino.getValue());			
+			notification.setText(edificio.getElevators().get(ascensor).select_floor(destino));
+			notification.open();
+		});
+		
+		botonAbrirCerrar.addClickListener(e -> {			
+			notification.setText(edificio.getElevators().get(ascensor).doors_button());
+			notification.open();
+		});
+		
+		botonEmergencia.addClickListener(e -> {
+			notification.setText(edificio.getElevators().get(ascensor).emergency_button());
+			notification.open();
+		});
 		
 		VerticalLayout col1 = new VerticalLayout(pisoDestino, botonAbrirCerrar);
 		col1.setWidth("50%");

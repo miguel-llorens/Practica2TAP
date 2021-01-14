@@ -16,8 +16,8 @@ public class Floor {
 		this.numFloor = numFloor;
 	}
 
-	public String llamarAscensor(int plantaLlama, Elevator elevator) {
-		return elevator.select_floor(plantaLlama);
+	public String llamarAscensor(Elevator elevator) {
+		return elevator.select_floor(numFloor);
 	}
 
 	public int estadoAscensor(Elevator elevator) {

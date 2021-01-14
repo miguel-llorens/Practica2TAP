@@ -22,7 +22,7 @@ public class MotionState extends ElevatorState {
         int floor = elevator.getCall_list().remove(0);
         
         elevator.setCurrentFloor(floor);
-        elevator.setCurrent_state(new DoorOpenedState());
+        elevator.setCurrent_state(new DoorClosedState());
 
         return "El ascensor se ha movido al piso " + Integer.toString(floor) + ".";
     }

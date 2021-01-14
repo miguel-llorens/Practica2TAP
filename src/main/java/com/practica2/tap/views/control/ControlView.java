@@ -3,6 +3,8 @@ package com.practica2.tap.views.control;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.practica2.tap.logic.Building;
+import com.practica2.tap.logic.Elevator;
 import com.practica2.tap.views.main.MainView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -23,16 +25,20 @@ import com.vaadin.flow.router.Route;
 
 public class ControlView extends VerticalLayout{
 
+	private Building edificio;
+	
 	public ControlView(){
+		
+		edificio = Building.getInstance(7, 3);
 		
 		Tabs tabs = new Tabs();
 		Div pages = new Div();
 		Map<Tab, Component> tabsToPages = new HashMap<>();
 		
-		for (int i = 1; i <= 3; i++) {
+		for (int i = 0; i < 3; i++) {
 			Tab tab = new Tab("Ascensor " + i);
-			Div page = new Div();
-			page.add(controlLayout());
+			Div page = new Div();			
+			page.add(controlLayout(edificio.getElevators().get(i)));
 			
 			if(i!=1) page.setVisible(false);
 			
@@ -52,33 +58,26 @@ public class ControlView extends VerticalLayout{
 		
 	}
 
-	public Component controlLayout() {
+	public Component controlLayout(Elevator ascensor) {
 		
 		TextField pantallaPiso = new TextField();
 		pantallaPiso.setReadOnly(true);
 		pantallaPiso.setLabel("Planta actual");
-		pantallaPiso.setValue("4");
+		ascensor.attachObserver(pantallaPiso);
 		pantallaPiso.setWidthFull();		
-		
-		TextField pantallaEmergencia = new TextField();
-		pantallaEmergencia.setLabel("Funcionamiento");
-		pantallaEmergencia.setValue("Correcto");
-		pantallaEmergencia.setReadOnly(true);
-		//pantallaEmergencia.setValue("Emergencia");
-		pantallaEmergencia.setWidthFull();
+			
 		
 		TextField pantallaEstado = new TextField();
 		pantallaEstado.setReadOnly(true);
 		pantallaEstado.setLabel("Estado");
-		pantallaEstado.setValue("En movimiento");
-		//pantallaEstado.setValue("Parado");
+		ascensor.attachStateObserver(pantallaEstado);
 		pantallaEstado.setWidthFull();
 		
 		VerticalLayout controlLayout = new VerticalLayout();
 
 		controlLayout.setHorizontalComponentAlignment(Alignment.CENTER, pantallaPiso);
 		controlLayout.getStyle().set("border", "1px solid #9E9E9E");
-		controlLayout.add(pantallaPiso, pantallaEmergencia, pantallaEstado);
+		controlLayout.add(pantallaPiso, pantallaEstado);
 		
 		return controlLayout;
 	}
