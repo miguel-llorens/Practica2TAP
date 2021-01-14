@@ -3,16 +3,11 @@ package com.practica2.tap.logic;
 import java.util.ArrayList;
 
 public class Building {
+	protected static Building singleton;
 	protected ArrayList<Floor> floors;
 	protected ArrayList<Elevator> elevators;
-	
-	public Building(ArrayList<Floor> floors, ArrayList<Elevator> elevators) {
-		super();
-		this.floors = floors;
-		this.elevators = elevators;
-	}
 
-	public Building(int numFloors, int numElevators) {
+	private Building(int numFloors, int numElevators) {
 		this.floors= new ArrayList<Floor>();
 		this.elevators = new ArrayList<Elevator>();
 		
@@ -23,6 +18,14 @@ public class Building {
 		for (int i = 0; i < numElevators; i++) {
 			this.elevators.add(new Elevator(i));
 		}
+	}
+
+	public static Building getInstance(int num_floors, int num_elevators) {
+		if (singleton == null) {
+			singleton = new Building(num_floors, num_elevators); 
+		}
+
+		return singleton;
 	}
 	
 	public ArrayList<Floor> getFloors() {
