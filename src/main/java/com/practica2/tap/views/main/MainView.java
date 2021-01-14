@@ -52,7 +52,13 @@ public class MainView extends AppLayout {
         layout.add(new DrawerToggle());
         viewTitle = new H1();
         layout.add(viewTitle);
-        layout.add(new Image("images/user.svg", "Avatar"));
+
+        Button resetButton = new Button("Reset");
+        resetButton.addClickListener(e -> {
+            Building.reset(7, 3);
+        });
+
+        layout.add(resetButton);
         return layout;
     }
 

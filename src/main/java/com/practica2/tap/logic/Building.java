@@ -27,6 +27,10 @@ public class Building {
 
 		return singleton;
 	}
+
+	public static void resetBuilding(int num_floors, int num_elevators) {
+		singleton = new Building(num_floors, num_elevators);
+	}
 	
 	public ArrayList<Floor> getFloors() {
 		return floors;
