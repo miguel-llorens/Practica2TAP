@@ -19,18 +19,4 @@ public class Floor {
 	public String llamarAscensor(Elevator elevator) {
 		return elevator.select_floor(numFloor);
 	}
-
-	public int estadoAscensor(Elevator elevator) {
-		return elevator.getCurrentFloor();
-	}
-	
-	public String noise(int plantaLlama, Elevator elevator) {
-		String message = "OFF";
-		
-		if (plantaLlama == elevator.getCurrentFloor()) {
-			message = "ON";
-		}
-
-		return message;
-	}
 }
